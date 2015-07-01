@@ -18,7 +18,7 @@ has dest => (is => 'rw', required => 1);
 use namespace::autoclean;
 
 sub gather_files {
-    require Dist::Zilla::File::InMemory;
+    require Dist::Zilla::File::OnDisk;
     require Module::Path::More;
 
     my ($self, $arg) = @_;
@@ -29,19 +29,15 @@ sub gather_files {
     my $modpath = Module::Path::More::module_path(module => $self->name)
         or $self->log_fatal(["Module %s not found on filesystem", $self->name]);
 
-    my $file = Dist::Zilla::File::InMemory->new(
-        name => $self->dest,
-        content => do {
-            local $/;
-            open my($fh), "<", $modpath or
-                $self->log_fatal(["Can't open module %s at %s",
-                                  $self->name, $modpath]);
-            ~~<$fh>;
-        });
+    my $fileobj = Dist::Zilla::File::OnDisk->new({
+        name => $modpath,
+        mode => 0644,
+    });
+    $fileobj->name($self->dest);
 
     $self->log(["Adding module %s (from %s) to %s",
                 $self->name, $modpath, $self->dest]);
-    $self->add_file($file);
+    $self->add_file($fileobj);
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -60,15 +56,14 @@ In F<dist.ini>:
 
 To add more files:
 
- [AddModule::FromFS / 2]
+ [AddModule::FromFS / AddModulePathMore]
  name=Module::Path::More
  dest=t/lib/Module/Path/More.pm
 
 
 =head1 DESCRIPTION
 
-This plugin simply adds a module source file from local filesystem to your
-build.
+This plugin adds a module source file from local filesystem to your build.
 
 
 =head1 SEE ALSO

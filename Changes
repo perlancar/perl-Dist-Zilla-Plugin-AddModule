@@ -1,5 +1,3 @@
-Revision history for Dist-Zilla-Plugin-AddModule-FromFS
-
 0.02    2015-07-01 (PERLANCAR)
 
 	- [Bugfix] Replace DZF:InMemory with DZF:OnDisk to avoid encoding

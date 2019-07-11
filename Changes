@@ -1,9 +1,9 @@
-0.02    2015-07-01 (PERLANCAR)
+0.02    2015-07-01  Released-By: PERLANCAR
 
 	- [Bugfix] Replace DZF:InMemory with DZF:OnDisk to avoid encoding
 	  issue.
 
 
-0.01     2015-06-28 (PERLANCAR)
+0.01     2015-06-28  Released-By: PERLANCAR
 
          - First release.

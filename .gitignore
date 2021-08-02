@@ -2,3 +2,4 @@ Dist-Zilla-Plugin-AddModule-FromFS-*
 .build
 *~
 nytprof*
+.DS_Store
